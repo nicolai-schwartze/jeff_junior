@@ -1,0 +1,2 @@
+\gdef\GITHash{db0dd8a}
+\gdef\GITDate{2019-10-12}

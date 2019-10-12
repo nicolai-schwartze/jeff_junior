@@ -1,0 +1,19 @@
+\documentclass[./\jobname.tex]{subfiles}
+\begin{document}
+
+\chapter{Task Description}
+
+This project is about constructing and building a 3-axis robot. The robot is equipped with two cameras and a red laser-pointer. The user can use a green laser-pointer to direct the robot into a different position. In order to avoid permanent sight-damage, the robot should avoid shining the laser into faces of surrounding humans. The following list contains the main working steps:
+
+\begin{itemize}
+	\item draw and construct the 3-axis robot 
+	\item manufacture and assemble the robot parts 
+	\item develope the backwards kinematic 
+	\item implement the backwards kinematic in C and compile to dll 
+	\item find green laser point in 3D stereo image with OpenCV in Python 
+	\item plan path from current position to green laser position 
+	\item implement controller to correct deviance between red and green laser point 
+	\item optional: avoid human faces along the way
+\end{itemize}
+
+\end{document}
