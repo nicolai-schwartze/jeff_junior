@@ -1,0 +1,36 @@
+﻿  read_write.c
+..\..\read_write.c(64): warning C4273: 'getch': inconsistent dll linkage
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\conio.h(452): note: see previous definition of 'getch'
+..\..\read_write.c(81): warning C4273: 'kbhit': inconsistent dll linkage
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\conio.h(458): note: see previous definition of 'kbhit'
+..\..\read_write.c(155): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(156): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(158): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(160): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(162): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(176): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(177): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(179): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(181): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(183): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(189): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(190): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(192): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(194): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(196): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(215): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(216): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(218): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(220): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(222): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+..\..\read_write.c(137): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  ..\..\read_write.c(63): note: see declaration of 'getch'
+..\..\read_write.c(150): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  ..\..\read_write.c(63): note: see declaration of 'getch'
+..\..\read_write.c(172): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  ..\..\read_write.c(63): note: see declaration of 'getch'
+     Creating library C:\Users\Nicolai\OneDrive\FH Mechatronik\3. Semester\Applied Robotics\Project\LaB3R\backwards_kinematic\DynamixelSDK-master\c\example\protocol2.0\read_write\win64\Release\read_write.lib and object C:\Users\Nicolai\OneDrive\FH Mechatronik\3. Semester\Applied Robotics\Project\LaB3R\backwards_kinematic\DynamixelSDK-master\c\example\protocol2.0\read_write\win64\Release\read_write.exp
+  Generating code
+  All 6 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  read_write.vcxproj -> C:\Users\Nicolai\OneDrive\FH Mechatronik\3. Semester\Applied Robotics\Project\LaB3R\backwards_kinematic\DynamixelSDK-master\c\example\protocol2.0\read_write\win64\Release\read_write.exe
