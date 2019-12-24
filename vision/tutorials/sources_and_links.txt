@@ -1,0 +1,4 @@
+https://albertarmea.com/post/opencv-stereo-camera/
+https://stackoverflow.com/questions/22334023/how-to-calculate-3d-object-points-from-2d-image-points-using-stereo-triangulatio
+https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#triangulatepoints
+https://answers.opencv.org/question/204910/calculate-robot-coordinates-from-measured-chessbaord-corners-hand-eye-calibration/
