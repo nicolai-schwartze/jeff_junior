@@ -10,7 +10,7 @@ Created on Fri Dec 20 16:40:25 2019
 import ctypes
 from ctypes import cdll
 
-libc = cdll.LoadLibrary("C:\\Users\\Admin\\OneDrive\\FH Mechatronik\\3. Semester\\Applied Robotics\\Project\\LaB3R\\backwards_kinematic\\back_kin_dll\\output\\back_kin.dll")
+libc = cdll.LoadLibrary("C:\\Users\\Admin\\OneDrive\\FH Mechatronik\\3. Semester\\Applied Robotics\\Project\\jeff_junior\\backwards_kinematic\\back_kin_dll\\output\\back_kin.dll")
 start_robot = libc.start_robot
 home = libc.home
 back_kin = libc.back_kin

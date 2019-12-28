@@ -5,16 +5,10 @@ Created on Mon Dec 23 09:03:08 2019
 @author: Nicolai
 ----------------
 """
-
 import cv2
 
-left = cv2.VideoCapture(1)
-# left.set(3,160)
-# left.set(4,120)
-right = cv2.VideoCapture(2)
-# right.set(3,160)
-# right.set(4,120)
-
+left = cv2.VideoCapture(2)
+right = cv2.VideoCapture(0)
 
 while(True):
     if not (left.grab() and right.grab()): 
