@@ -1,4 +1,12 @@
+# workflow and general structure
 https://albertarmea.com/post/opencv-stereo-camera/
+
+# single camera calibration official documentation
+https://docs.opencv.org/4.1.0/dc/dbb/tutorial_py_calibration.html
+
+# usage of triangulate 
 https://stackoverflow.com/questions/22334023/how-to-calculate-3d-object-points-from-2d-image-points-using-stereo-triangulatio
 https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#triangulatepoints
+
+# hand eye calibration with opencv
 https://answers.opencv.org/question/204910/calculate-robot-coordinates-from-measured-chessbaord-corners-hand-eye-calibration/

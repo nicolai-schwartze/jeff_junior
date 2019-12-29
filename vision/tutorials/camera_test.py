@@ -7,22 +7,30 @@ Created on Mon Dec 23 09:03:08 2019
 """
 import cv2
 
-left = cv2.VideoCapture(2)
+print("use q to quit the process")
+print("use space-bar to take a picture")
+
+# left = cv2.VideoCapture(2)
 right = cv2.VideoCapture(0)
 
 while(True):
-    if not (left.grab() and right.grab()): 
-        print("No more frames")
+    if not (right.grab()): # left.grab() and 
+        print("could not grab cameras")
         break
 
-    _, leftFrame = left.retrieve()
+    # _, leftFrame = left.retrieve()
     _, rightFrame = right.retrieve()
 
-    cv2.imshow('left', leftFrame)
+    # cv2.imshow('left', leftFrame)
     cv2.imshow('right', rightFrame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    
+    key = cv2.waitKey(1) & 0xFF
+    
+    if key == ord('q'):
         break
+    if cv2.waitKey(1) & 0xFF == ord(' '):
+        print("yeah")
 
-left.release()
+# left.release()
 right.release()
 cv2.destroyAllWindows()
