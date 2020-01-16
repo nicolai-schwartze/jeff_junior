@@ -211,8 +211,14 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 
-# calibration data
-vision/calibration/chessboard_data/camera_left/*.png
-vision/calibration/chessboard_data/camera_right/*.png
-vision/calibration/chessboard_data/camera_left/*.jpg
-vision/calibration/chessboard_data/camera_right/*.jpg
+# calibration data images
+vision/calibration/*.png
+vision/calibration/*.png
+vision/calibration/*.jpg
+vision/calibration/*.jpg
+
+# detection images
+vision/detection/laserdot_testimages/*.png
+vision/detection/laserdot_testimages/*.jpg
+
+# 

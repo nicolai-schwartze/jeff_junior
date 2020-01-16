@@ -56,7 +56,8 @@
 #define D1								100
 #define DF								68
 
-WINDECLSPEC int back_kin(float z, float alpha, float beta, int port_num);
-WINDECLSPEC int start_robot();
-WINDECLSPEC void stop_robot(int port_num);
-WINDECLSPEC void home(int port_num);
+WINDECLSPEC int robot_start();
+WINDECLSPEC void robot_stop(int port_num);
+WINDECLSPEC void robot_home(int port_num);
+WINDECLSPEC int robot_drive(float z, float alpha, float beta, int port_num);
+WINDECLSPEC int robot_reached_target(float z, float alpha, float beta, int port_num);
