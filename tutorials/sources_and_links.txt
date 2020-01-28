@@ -10,3 +10,9 @@ https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_recons
 
 # hand eye calibration with opencv
 https://answers.opencv.org/question/204910/calculate-robot-coordinates-from-measured-chessbaord-corners-hand-eye-calibration/
+
+# detect blobs and calculate center of mass
+https://www.learnopencv.com/find-center-of-blob-centroid-using-opencv-cpp-python/
+
+# crop image in tkinter
+https://stackoverflow.com/questions/55636313/selecting-an-area-of-an-image-with-a-mouse-and-recording-the-dimensions-of-the-s
