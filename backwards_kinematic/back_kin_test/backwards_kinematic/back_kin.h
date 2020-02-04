@@ -50,6 +50,10 @@
 #define HOME_1							2060
 #define HOME_2							3072
 
+#define THETA_0_OFFSET					2288
+#define THETA_1_OFFSET					2060
+#define THETA_2_OFFSET					3072
+
 #define PI								3.14159265
 #define A2								50
 #define A3								100
@@ -61,3 +65,7 @@ WINDECLSPEC void robot_stop(int port_num);
 WINDECLSPEC void robot_home(int port_num);
 WINDECLSPEC int robot_drive(float z, float alpha, float beta, int port_num);
 WINDECLSPEC int robot_reached_target(float z, float alpha, float beta, int port_num);
+WINDECLSPEC void robot_set_theta(float theta0, float theta1, float theta2, int port_num);
+WINDECLSPEC float robot_get_theta0(int port_num);
+WINDECLSPEC float robot_get_theta1(int port_num);
+WINDECLSPEC float robot_get_theta2(int port_num);

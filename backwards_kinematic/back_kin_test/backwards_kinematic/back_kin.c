@@ -73,6 +73,48 @@ void robot_home(int port_num) {
 }
 
 
+
+void robot_set_theta(float theta0, float theta1, float theta2, int port_num) {
+	int goalPtr[3];
+	theta0 = (PI / 180) * theta0;
+	theta1 = (PI / 180) * theta1;
+	theta2 = (PI / 180) * theta2;
+	goalPtr[0] = (int)(theta0 * ANGLE_STEP) + THETA_0_OFFSET;
+	goalPtr[1] = (int)(theta1 * ANGLE_STEP) + THETA_1_OFFSET;
+	goalPtr[2] = (int)(theta2 * ANGLE_STEP) + THETA_2_OFFSET;
+	drive_to_goal_pos(goalPtr, port_num);
+}
+
+
+
+float robot_get_theta0(int port_num) {
+	int currentPos = read4ByteTxRx(port_num, PROTOCOL_VERSION, MOTOR_ID_0, ADDR_PRESENT_POSITION);
+	float theta0 = ((float)(currentPos - THETA_0_OFFSET)) / ((float)ANGLE_STEP);
+	theta0 = theta0 * (180 / PI);
+	return theta0;
+}
+
+
+
+float robot_get_theta1(int port_num) {
+	int currentPos = read4ByteTxRx(port_num, PROTOCOL_VERSION, MOTOR_ID_1, ADDR_PRESENT_POSITION);
+	float theta1 = ((float)(currentPos - THETA_1_OFFSET)) / ((float)ANGLE_STEP);
+	theta1 = theta1 * (180 / PI);
+	return theta1;
+}
+
+
+
+float robot_get_theta2(int port_num) {
+	int currentPos = read4ByteTxRx(port_num, PROTOCOL_VERSION, MOTOR_ID_2, ADDR_PRESENT_POSITION);
+	float theta2 = ((float)(currentPos - THETA_2_OFFSET)) / ((float)ANGLE_STEP);
+	theta2 = theta2 * (180 / PI);
+	return theta2;
+}
+
+
+
+
 void robot_stop(int port_num) {
 
 	robot_home(port_num);
@@ -86,7 +128,13 @@ void robot_stop(int port_num) {
 	closePort(port_num);
 }
 
+
+
 #pragma endregion
+
+
+
+
 
 #pragma region internal functions
 
@@ -103,9 +151,9 @@ void back_kin(float z, float alpha, float beta, int port_num, int *goalPos) {
 	theta[1] = asin((z - D1 - DF * sin((PI / 2) - beta)) / A3);
 	theta[2] = beta - theta[1];
 
-	goalPos[0] = (int)(theta[0] * ANGLE_STEP) + 2288;
-	goalPos[1] = (int)(theta[1] * ANGLE_STEP) + 2060;
-	goalPos[2] = (int)(theta[2] * ANGLE_STEP) + 3072;
+	goalPos[0] = (int)(theta[0] * ANGLE_STEP) + THETA_0_OFFSET;
+	goalPos[1] = (int)(theta[1] * ANGLE_STEP) + THETA_1_OFFSET;
+	goalPos[2] = (int)(theta[2] * ANGLE_STEP) + THETA_2_OFFSET;
 }
 
 

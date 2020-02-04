@@ -11,15 +11,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-def getLaserPoint(videoCaptureLeft, videoCaptureRight, \
-                  cProjectionMatrixLeft, cProjectionMatrixRight, \
-                  lowHSV, highHSV):
-    
-    # take images
-    videoCaptureLeft.grab()
-    videoCaptureRight.grab()
-    _, leftFrame = videoCaptureLeft.retrieve()
-    _, rightFrame = videoCaptureRight.retrieve()
+def getLaserPointBlobDetection(leftFrame, rightFrame, lowHSV, highHSV):
     
     # find dot points
     leftFrame_hsv = cv2.cvtColor(leftFrame, cv2.COLOR_BGR2HSV)
@@ -28,7 +20,7 @@ def getLaserPoint(videoCaptureLeft, videoCaptureRight, \
     rightDotImage = cv2.inRange(rightFrame_hsv, lowHSV, highHSV)
     
     # make dot bigger with dialate
-    kernel = np.ones((10,10),np.uint8)
+    kernel = np.ones((30,30),np.uint8)
     leftDil = cv2.dilate(leftDotImage, kernel)
     rightDil = cv2.dilate(rightDotImage, kernel)
     
@@ -58,19 +50,47 @@ def getLaserPoint(videoCaptureLeft, videoCaptureRight, \
     
     rP = np.array([[rX], [rY]],dtype=np.float)
     
+    return [lP, rP]
+    
+
+
+
+
+def getLaserPointTemplateMatching(leftFrame, rightFrame, template):
+    
+    resLeft = cv2.matchTemplate(leftFrame,template,cv2.TM_CCOEFF_NORMED)
+    resRight = cv2.matchTemplate(rightFrame,template,cv2.TM_CCOEFF_NORMED)
+    
+    # min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(resLeft)
+    _, _, _, locLeft = cv2.minMaxLoc(resLeft)
+    _, _, _, locRight = cv2.minMaxLoc(resRight)
+    
+    lP = np.array([[locLeft[0]],[locLeft[1]]],dtype=np.float)
+    rP = np.array([[locRight[0]],[locRight[1]]],dtype=np.float)
+    
+    return [lP, rP]
+
+
+
+
+def get3DPoint(cPrpjectionMatrixL, cProjectionMatrixR, listPoints2D):
+    
     # triangulate with camera matrix
-    P = cv2.triangulatePoints(cProjectionMatrixLeft, cProjectionMatrixRight,\
-                              lP, rP)
+    P = cv2.triangulatePoints(cPrpjectionMatrixL, cProjectionMatrixR, \
+                              listPoints2D[0], listPoints2D[1])
     
     # remove 4th element of vector
     P = P/P[3][0]
     
     return P[0:3,0]
     
+    
+
 
 
 
 if __name__ == "__main__":
+    
     print("start test")
     
     leftCameraIndex = 2
@@ -79,12 +99,63 @@ if __name__ == "__main__":
     right = cv2.VideoCapture(rightCameraIndex)
     cPML = np.load("..\calibration\cameraProjectionMatrixLeft.npy")
     cPMR = np.load("..\calibration\cameraProjectionMatrixRight.npy")
+    
+    # get point by blob detection
     redLowHSV = (1,94,200)
     redHighHSV = (67, 145, 255)
     greenLowHSV = (67,51,200)
     greenHighHSV = (113,145,255)
-    laserPoint = getLaserPoint(left, right, cPML, cPMR, \
-                               greenLowHSV, greenHighHSV)
-    print(laserPoint)
+    
+    # get point by template matching
+    greenTemplate = cv2.imread("green_template.png")
+    greenSize = np.shape(greenTemplate)
+    redTemplate = cv2.imread("red_template.png")
+    redSize = np.shape(redTemplate)
+    
+    while(True):
+        
+        left.grab()
+        right.grab()
+        _, leftFrame = left.retrieve()
+        _, rightFrame = right.retrieve()
+        
+        gLP2D = getLaserPointTemplateMatching(leftFrame, rightFrame, greenTemplate)
+        gLP3D = get3DPoint(cPML, cPMR, gLP2D)
+        print(gLP3D)
+        
+        rLP2D = getLaserPointTemplateMatching(leftFrame, rightFrame, redTemplate)
+        rLP3D = get3DPoint(cPML, cPMR, rLP2D)
+        print(rLP3D)
+        
+        print(np.linalg.norm(rLP3D - gLP3D))
+        print(50*"-")
+        
+        cv2.rectangle(leftFrame, (gLP2D[0][0], gLP2D[0][1]), \
+                      (gLP2D[0][0]+greenSize[0], gLP2D[0][1]+greenSize[1]), \
+                      (0,255,0))
+            
+        cv2.rectangle(rightFrame, (gLP2D[1][0], gLP2D[1][1]), \
+                      (gLP2D[1][0]+greenSize[0], gLP2D[1][1]+greenSize[1]), \
+                      (0,255,0))
+            
+        cv2.rectangle(leftFrame, (rLP2D[0][0], rLP2D[0][1]), \
+                      (rLP2D[0][0]+redSize[0], rLP2D[0][1]+redSize[1]), \
+                      (0,0,255))
+            
+        cv2.rectangle(rightFrame, (rLP2D[1][0], rLP2D[1][1]), \
+                      (rLP2D[1][0]+redSize[0], rLP2D[1][1]+redSize[1]), \
+                      (0,0,255))
+        
+        cv2.imshow('left', leftFrame)
+        cv2.imshow('right', rightFrame)
+        key = cv2.waitKey(1) & 0xFF
+        if not (key == 255):
+            if key == ord('q'):
+                break 
+            
+    cv2.destroyAllWindows()
+    
+    
+    
     
     

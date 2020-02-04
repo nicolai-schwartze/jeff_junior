@@ -8,6 +8,7 @@ Created on Thu Jan 16 13:18:08 2020
 
 import tkinter as tk
 from PIL import Image, ImageTk
+import cv2
 
 
 class MousePositionTracker(tk.Frame):
@@ -127,13 +128,13 @@ class SelectionObject:
 class Application(tk.Frame):
 
     # Default selection object options.
-    SELECT_OPTS = dict(dash=(2, 2), stipple='gray25', fill='red',
+    SELECT_OPTS = dict(dash=(2, 2), stipple='gray25', fill='gray25',
                           outline='')
 
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        path = "..\\vision\\detection\\laserdot_testimages\\right_green_red.jpg"
+        path = "..\\vision\\detection\\laser_template.png"
         img = ImageTk.PhotoImage(Image.open(path))
         self.canvas = tk.Canvas(root, width=img.width(), height=img.height(),
                                 borderwidth=0, highlightthickness=0)
@@ -141,24 +142,39 @@ class Application(tk.Frame):
 
         self.canvas.create_image(0, 0, image=img, anchor=tk.NW)
         self.canvas.img = img  # Keep reference.
-
+        
         # Create selection object to show current selection boundaries.
         self.selection_obj = SelectionObject(self.canvas, self.SELECT_OPTS)
 
         # Callback function to update it given two points of its diagonal.
         def on_drag(start, end, **kwarg):  # Must accept these arguments.
             self.selection_obj.update(start, end)
-
+            
         # Create mouse position tracker that uses the function.
         self.posn_tracker = MousePositionTracker(self.canvas)
         self.posn_tracker.autodraw(command=on_drag)  # Enable callbacks.
+        
+        def createGreenTemplate():
+            coords = self.posn_tracker.cur_selection()
+            print(coords)
+            print("created green template")
+            
+        def createRedTemplate():
+            print("created red template")
+            
+        self.greenTemplate = tk.Button(root, text="create green template", command=createGreenTemplate)
+        self.greenTemplate.pack()
+        
+        self.redTemplate = tk.Button(root, text="create red template", command=createRedTemplate)
+        self.redTemplate.pack()
+
 
 
 if __name__ == '__main__':
 
-    WIDTH, HEIGHT = 900, 900
+    WIDTH, HEIGHT = 640, 540
     BACKGROUND = 'grey'
-    TITLE = 'Image Cropper'
+    TITLE = 'Template Configurator'
 
     root = tk.Tk()
     root.title(TITLE)
@@ -167,4 +183,5 @@ if __name__ == '__main__':
 
     app = Application(root, background=BACKGROUND)
     app.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.TRUE)
+    
     app.mainloop()
