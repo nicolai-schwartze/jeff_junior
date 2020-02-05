@@ -2,7 +2,7 @@
 This project is part of the FHV Master-Mechatronics course Applied Robotics. 
 
 A 3-axis robot is equipped with 2 cameras and a red laser pointer. 
-The robot looks for a green laser dot in the open space. 
+The robot looks for a green laser dot on a white flip-chart. 
 When the green dot is found, the robot aims its red laser at the same position.
 
 The work of this project includes everything, from the design and construction of the robot
