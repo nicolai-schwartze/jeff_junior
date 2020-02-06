@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\beamer@sectionintoc {2}{Design}{4}{0}{2}
+\beamer@sectionintoc {3}{Calculation}{7}{0}{3}
+\beamer@sectionintoc {4}{Camera Calibration}{12}{0}{4}
+\beamer@sectionintoc {5}{Laser Point Detection}{16}{0}{5}
+\beamer@sectionintoc {6}{Conclusion, Further Work}{20}{0}{6}

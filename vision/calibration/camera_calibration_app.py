@@ -13,7 +13,7 @@ import os
 leftPath = "./chessboard_data/camera_left/"
 rightPath = "./chessboard_data/camera_right/"
 chessboardSize = (10,8)
-squareSize = 20.0
+squareSize = 20.5
 leftCameraIndex = 2
 rightCameraIndex = 0
 minNrImages = 15
@@ -166,6 +166,7 @@ if (pictureCounter >= minNrImages) or not saveImages:
                                                                          rightFrame.shape[::-1], None, None)
     (_, cameraMatrixLeft, distortionLeft, _, _) = cv2.calibrateCamera(points3DList, cornersListLeft, \
                                                                       leftFrame.shape[::-1], None, None)
+        
     TERMINATION_CRITERIA = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
     (_, _, _, _, _, rotationMatrix, translationVector, _, _) = cv2.stereoCalibrate(points3DList, cornersListLeft, cornersListRight, cameraMatrixLeft, distortionLeft, cameraMatrixRight, distortionRight, rightFrame.shape[::-1], None, None, None, None, cv2.CALIB_FIX_INTRINSIC, TERMINATION_CRITERIA)
 

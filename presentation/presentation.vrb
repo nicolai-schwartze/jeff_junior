@@ -1,0 +1,19 @@
+\frametitle{Master Worker - Self-Adaptive Meta ES}
+We have learned about the Meta-ES in the lectures. \\~\\
+A very short recap:
+\begin{itemize}
+	\item simple self-adaptive properties
+	\item inner strategies with different $\sigma$
+	\item prone for parallelisation
+\end{itemize}
+In the exercises we only implemented the sequential algorithm.\\
+We have now programmed the parallel version:
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{lstlisting}
+sigmaArray = [sigma * alpha, sigma / alpha];
+parfor i=1:2
+[f(i), y(:,i), fe(i)] =
+innerES(mu, lambda, gamma, sigmaArray(i), yp, functionHandler, 0);
+end
+functionEvaluation = functionEvaluation + fe(1) + fe(2);
+\end{lstlisting}

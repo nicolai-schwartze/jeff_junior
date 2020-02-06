@@ -82,7 +82,39 @@ def get3DPoint(cPrpjectionMatrixL, cProjectionMatrixR, listPoints2D):
     # remove 4th element of vector
     P = P/P[3][0]
     
-    return P[0:3,0]
+    return P[0:3,:]
+
+
+def transformPointFromCameraToBase(pointC, theta0, theta1, theta2):
+    
+    pointC = np.array([pointC[0], pointC[1], pointC[2], [1]])
+    
+    D1 = 100
+    A2 = 50
+    A3 = 100
+    DF = 68
+
+    c1 = np.cos(np.deg2rad(theta0))
+    s1 = np.sin(np.deg2rad(theta0))
+    c2 = np.cos(np.deg2rad(theta1))
+    s2 = np.sin(np.deg2rad(theta1))
+    c3 = np.cos(np.deg2rad(theta2))
+    s3 = np.sin(np.deg2rad(theta2))
+
+
+    T = np.array([[ -c1*c2*s3 -c1*c3*s2, -s1, c1*c2*c3 - c1*s2*s3, \
+                    A2*c1 + DF*(c1*c2*c3 - c1*s2*s3) + A3*c1*s2], \
+                  [ -c2*s1*s3 - c3*s1*s2, c1, c2*c3*s1 - s1*s2*s3, \
+                    A2*s1 + DF*(c2*c3*s1 - s1*s2*s3) + A3*s1*s2], \
+                  [ s2*s3 - c2*c3, 0.0, -c2*s3 - c3*s2,             \
+                    D1 + A3*c2 - DF*(c2*s3 + c3*s2)],
+                  [ 0.0, 0.0, 0.0, 1.0 ]])
+        
+    HE = np.array([[0.0, 1.0, 0.0, -28.5], [-1.0, 0.0, 0.0, 45.0], \
+                   [0.0, 0.0, 1.0, 28.0], [0.0, 0.0, 0.0, 1.0]])
+
+    pointB = np.dot(np.dot(T, HE), pointC)
+    return pointB
     
     
 
@@ -119,24 +151,26 @@ if __name__ == "__main__":
         _, leftFrame = left.retrieve()
         _, rightFrame = right.retrieve()
         
-        gLP2D = getLaserPointTemplateMatching(leftFrame, rightFrame, greenTemplate)
-        gLP3D = get3DPoint(cPML, cPMR, gLP2D)
-        print(gLP3D)
+        # gLP2D = getLaserPointTemplateMatching(leftFrame, rightFrame, greenTemplate)
+        # gLP3D = get3DPoint(cPML, cPMR, gLP2D)
+        # gLPB = transformPointFromCameraToBase(gLP3D, 0.0, 0.0, 0.0)
+        # print(gLPB)
         
         rLP2D = getLaserPointTemplateMatching(leftFrame, rightFrame, redTemplate)
         rLP3D = get3DPoint(cPML, cPMR, rLP2D)
-        print(rLP3D)
+        rLPB = transformPointFromCameraToBase(rLP3D, 0.0, 0.0, 0.0)
+        print(rLPB)
         
-        print(np.linalg.norm(rLP3D - gLP3D))
-        print(50*"-")
+        # print(np.linalg.norm(rLP3D - gLP3D))
+        # print(50*"-")
         
-        cv2.rectangle(leftFrame, (gLP2D[0][0], gLP2D[0][1]), \
-                      (gLP2D[0][0]+greenSize[0], gLP2D[0][1]+greenSize[1]), \
-                      (0,255,0))
+        # cv2.rectangle(leftFrame, (gLP2D[0][0], gLP2D[0][1]), \
+        #               (gLP2D[0][0]+greenSize[0], gLP2D[0][1]+greenSize[1]), \
+        #               (0,255,0))
             
-        cv2.rectangle(rightFrame, (gLP2D[1][0], gLP2D[1][1]), \
-                      (gLP2D[1][0]+greenSize[0], gLP2D[1][1]+greenSize[1]), \
-                      (0,255,0))
+        # cv2.rectangle(rightFrame, (gLP2D[1][0], gLP2D[1][1]), \
+        #               (gLP2D[1][0]+greenSize[0], gLP2D[1][1]+greenSize[1]), \
+        #               (0,255,0))
             
         cv2.rectangle(leftFrame, (rLP2D[0][0], rLP2D[0][1]), \
                       (rLP2D[0][0]+redSize[0], rLP2D[0][1]+redSize[1]), \

@@ -4,111 +4,107 @@ from copy import deepcopy
 import cv2
 
 
-WIDTH, HEIGHT = 640, 570
-topx, topy, botx, boty = 0, 0, 0, 0
-videoStreamStartStop = True
-videoStreamButtonText = "Start/Stop Video"
-rect_id = None
-frame = None
 
+class TemplateCalibrationApp:
 
-def get_mouse_posn(event):
-    global topy, topx
+    def __init__(self, window, templatePath):
+        self.leftCameraIndex = 2
+        self.camera = cv2.VideoCapture(self.leftCameraIndex)
+        self.topx, self.topy, self.botx, self.boty = 0, 0, 0, 0
+        self.videoStreamStartStop = True
+        self.videoStreamButtonText = "Start/Stop Video"
+        self.rect_id = None
+        self.frame = None
+        self.window = window
+        self.templatePath = templatePath
+        
+        # take first image
+        self.img = self.camera.read()[1]
+        self.img_blue = deepcopy(self.img[:,:,0])
+        self.img_red = deepcopy(self.img[:,:,2])
+        self.img[:,:,2] = self.img_blue
+        self.img[:,:,0] = self.img_red
+        self.img = Image.fromarray(self.img)
+        
+        # write first image to canvas
+        self.img = ImageTk.PhotoImage(self.img)
+        self.canvas = tk.Canvas(self.window, width=self.img.width(), height=self.img.height(), borderwidth=0, highlightthickness=0)
+        self.canvas.pack(expand=True)
+        self.canvas.img = self.img  # Keep reference in case this code is put into a function.
+        self.img_on_canvas = self.canvas.create_image(0, 0, image=self.img, anchor=tk.NW)
+        
+        # create, attach and pack buttons
+        self.startStopVideoStreamButton = tk.Button(self.window, text=self.videoStreamButtonText, command=self.start_stop_VideoStream)
+        self.startStopVideoStreamButton.pack()
+        self.redTemplateButton = tk.Button(self.window, text="Create Red Template", fg='red', command=self.createRedTemplate)
+        self.redTemplateButton.pack()
+        self.greenTemplateButton = tk.Button(self.window, text="Create Green Template", fg='green', command=self.createGreenTemplate)
+        self.greenTemplateButton.pack()
+    
+        # Create selection rectangle (invisible since corner points are equal).
+        self.rect_id = self.canvas.create_rectangle(self.topx, self.topy, self.topx, self.topy, dash=(2,2), fill='', outline='black')
+        
+        self.canvas.bind('<Button-1>', self.get_mouse_posn)
+        self.canvas.bind('<B1-Motion>', self.update_sel_rect)
 
-    topx, topy = event.x, event.y
-
-def update_sel_rect(event):
-    global rect_id
-    global topy, topx, botx, boty
-
-    botx, boty = event.x, event.y
-    canvas.coords(rect_id, topx, topy, botx, boty)  # Update selection rect.
+    def get_mouse_posn(self, event):
+        self.topx, self.topy = event.x, event.y
+    
+    def update_sel_rect(self, event):
+        self.rect_id
+        self.topy, self.topx, self.botx, self.boty
+    
+        self.botx, self.boty = event.x, event.y
+        self.canvas.coords(self.rect_id, self.topx, self.topy, self.botx, self.boty)  # Update selection rect.
+        
+    # video stream function
+    def videoStream(self):
+        self.frame = self.camera.read()[1]
+        self.vid = deepcopy(self.frame)
+        self.vid_blue = deepcopy(self.vid[:,:,0])
+        self.vid_red = deepcopy(self.vid[:,:,2])
+        self.vid[:,:,2] = self.vid_blue
+        self.vid[:,:,0] = self.vid_red
+        self.vid = Image.fromarray(self.vid)
+        
+        self.img2 = ImageTk.PhotoImage(self.vid)
+        self.canvas.img = self.img2
+        self.canvas.itemconfig(self.img_on_canvas, image = self.img2)
+        
+        if self.videoStreamStartStop:
+            self.window.after(100, self.videoStream)
+    
+    
+    def start_stop_VideoStream(self):
+        if self.videoStreamStartStop:
+            self.videoStreamStartStop = False
+        else:
+            self.videoStreamStartStop = True
+            self.window.after(100, self.videoStream)
+            
+            
+    def createRedTemplate(self):
+        capture = self.frame[self.topy:self.boty,self.topx:self.botx,:]
+        cv2.imwrite(self.templatePath + "red_template.png", capture)
+        print("created red template")
+        
+    def createGreenTemplate(self):
+        capture = self.frame[self.topy:self.boty,self.topx:self.botx,:]
+        cv2.imwrite(self.templatePath + "green_template.png", capture)
+        print("created green template")
 
 
 if __name__ == "__main__":
     
-    leftCameraIndex = 2
-    camera = cv2.VideoCapture(leftCameraIndex)
-
+    WIDTH, HEIGHT = 640, 570
+    templatePath = "./"
     window = tk.Tk()
     window.title("Configurate Laser Template")
     window.geometry('%sx%s' % (WIDTH, HEIGHT))
     window.configure(background='grey')
     
-    # take first image
-    img = camera.read()[1]
-    img_blue = deepcopy(img[:,:,0])
-    img_red = deepcopy(img[:,:,2])
-    img[:,:,2] = img_blue
-    img[:,:,0] = img_red
-    img = Image.fromarray(img)
+    appWindow = TemplateCalibrationApp(window, templatePath)
     
-    # write first image to canvas
-    img = ImageTk.PhotoImage(img)
-    canvas = tk.Canvas(window, width=img.width(), height=img.height(),
-                       borderwidth=0, highlightthickness=0)
-    canvas.pack(expand=True)
-    canvas.img = img  # Keep reference in case this code is put into a function.
-    img_on_canvas = canvas.create_image(0, 0, image=img, anchor=tk.NW)
-    
-    # video stream function
-    def videoStream():
-        global frame
-        frame = camera.read()[1]
-        vid = deepcopy(frame)
-        vid_blue = deepcopy(vid[:,:,0])
-        vid_red = deepcopy(vid[:,:,2])
-        vid[:,:,2] = vid_blue
-        vid[:,:,0] = vid_red
-        vid = Image.fromarray(vid)
-        
-        img2 = ImageTk.PhotoImage(vid)
-        canvas.img = img2
-        canvas.itemconfig(img_on_canvas, image = img2)
-        
-        global videoStreamStartStop
-        if videoStreamStartStop:
-            window.after(100, videoStream)
-    
-    
-    def start_stop_VideoStream():
-        global videoStreamStartStop
-        print(videoStreamStartStop)
-        if videoStreamStartStop:
-            videoStreamStartStop = False
-        else:
-            videoStreamStartStop = True
-            window.after(100, videoStream)
-
-        
-    startStopVideoStreamButton = tk.Button(window, text=videoStreamButtonText, command=start_stop_VideoStream)
-    startStopVideoStreamButton.pack()
-    
-    def createRedTemplate():
-        global frame
-        capture = frame[topy:boty,topx:botx,:]
-        cv2.imwrite("./red_template.png", capture)
-        print("created red template")
-            
-    redTemplateButton = tk.Button(window, text="Create Red Template", fg='red', command=createRedTemplate)
-    redTemplateButton.pack()
-    
-    def createGreenTemplate():
-        global frame
-        capture = frame[topy:boty,topx:botx,:]
-        cv2.imwrite("./green_template.png", capture)
-        print("created green template")
-            
-    greenTemplateButton = tk.Button(window, text="Create Green Template", fg='green', command=createGreenTemplate)
-    greenTemplateButton.pack()
-    
-    # Create selection rectangle (invisible since corner points are equal).
-    rect_id = canvas.create_rectangle(topx, topy, topx, topy,
-                                      dash=(2,2), fill='', outline='black')
-    
-    canvas.bind('<Button-1>', get_mouse_posn)
-    canvas.bind('<B1-Motion>', update_sel_rect)
-    
-    videoStream()
+    appWindow.videoStream()
     window.mainloop()
     print("closing template creation app")
