@@ -1,5 +1,0 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
-\babel@toc {ngerman}{}
-\babel@toc {english}{}
-\contentsline {chapter}{\numberline {1}Task Description}{1}{chapter.1}
-\contentsline {chapter}{Appendices}{2}{section*.3}

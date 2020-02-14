@@ -1,2 +1,2 @@
-\gdef\GITHash{788c643}
-\gdef\GITDate{2019-10-12}
+\gdef\GITHash{382268c}
+\gdef\GITDate{2020-02-06}

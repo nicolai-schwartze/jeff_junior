@@ -114,7 +114,6 @@ if __name__ == '__main__':
         
             
         gLPB = dect.transformPointFromCameraToBase(gLP3D, theta0, theta1, theta2)
-        rLPB = dect.transformPointFromCameraToBase(rLP3D, theta0, theta1, theta2)
         
         
         r_theta0 = np.arctan(gLPB[1]/gLPB[0])
@@ -127,6 +126,7 @@ if __name__ == '__main__':
         
         
         robot_set_theta(ctypes.c_float(r_theta0[0]), ctypes.c_float(r_theta1[0]), ctypes.c_float(r_theta2[0]), pn)
+        
         
         
         cv2.imshow('left', leftFrame)
