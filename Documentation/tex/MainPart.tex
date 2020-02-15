@@ -129,7 +129,7 @@ s1s2 - c1c2     &   0 & -c1s2 - c2s1 & d1 + a3c1 + dF(-c1s2 - c2s1) \\
 For controlling the robot, several functions are written in C and compiled to a DLL. The functions are built on the Dynamixel library \cite{Robotis2019}. The DLL provides the following methods: 
 \begin{itemize}
 	\item \colorbox{light-gray}{\lstinline[basicstyle=\ttfamily\color{black}]|int robot_start();|} \\
-	Sets up the communication with the robot by returning the port number. This number must be provided in every other function. Further this function sets up the main parameters of every motor like the angle- and velocity limits.
+	Sets up the communication with the robot by returning the port number. This number must be provided in every other function. Further this function sets up the main parameters of every motor like the velocity limits.
 	\item \colorbox{light-gray}{\lstinline[basicstyle=\ttfamily\color{black}]|void robot_stop(int port_num);|} \\ 
 	Stops the robot by driving to the home position and freeing the device with the port number. 
 	\item \colorbox{light-gray}{\lstinline[basicstyle=\ttfamily\color{black}]|void robot_home(int port_num);|} \\
