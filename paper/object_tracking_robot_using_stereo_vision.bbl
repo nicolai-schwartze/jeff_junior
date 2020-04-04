@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{Craig2018}
+J.~Craig.
+\newblock Introduction to robotics mechanics and control, 2018.
+
+\bibitem{2014opencv}
+OpenCV.
+\newblock {\em The OpenCV Reference Manual}, 4.1.1 edition, July 2019.
+
+\bibitem{ParkHandEye}
+F.~C. {Park} and B.~J. {Martin}.
+\newblock {Robot sensor calibration: solving AX=XB on the Euclidean group}.
+\newblock {\em IEEE Transactions on Robotics and Automation}, 10(5):717--721,
+  Oct 1994.
+
+\bibitem{Gonz2018}
+R.~E.~W. Rafael C.~Gonzales.
+\newblock Digital image processing, 2018.
+
+\bibitem{Ziss2008}
+A.~Z. Richard~Hartley.
+\newblock Multiple view geometry in computer vison, 2008.
+
+\bibitem{Robotis2019}
+ROBOTIS-GIT.
+\newblock Dynamixelsdk.
+\newblock \url{github.com/ROBOTIS-GIT/DynamixelSDK/tree/master/c}, 2019.
+
+\end{thebibliography}

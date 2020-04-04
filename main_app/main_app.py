@@ -127,6 +127,7 @@ if __name__ == '__main__':
         
         robot_set_theta(ctypes.c_float(r_theta0[0]), ctypes.c_float(r_theta1[0]), ctypes.c_float(r_theta2[0]), pn)
         
+        time.sleep(np.random.exponential(scale=0.1))
         
         
         cv2.imshow('left', leftFrame)
